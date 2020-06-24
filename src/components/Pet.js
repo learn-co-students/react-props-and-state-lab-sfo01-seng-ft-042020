@@ -1,50 +1,34 @@
-import React from 'react'
+import React from "react";
 
-class Pet extends React.Component {
-  constructor(props) {
-    super(props)
+const Pet = ({ pet, onAdoptPet }) => {
+  const { id, age, gender, isAdopted, name, type, weight } = pet;
 
-    this.state = {
-      isAdopted: this.props.pet.isAdopted
-    }
-  }
-
-  handleClick = () => {
-    this.setState({
-      isAdopted: true
-    })
-  }
-
-    render() {
-      return (
-        <div className="card">
-          <div className="content">
-            <a className="header">
-              { this.props.pet.gender === 'male' ? 
-              '♂' :
-              '♀'
-
-            } 
-              {/*'♀' OR '♂' */}
-              {this.props.pet.name}
-            </a>
-            <div className="meta">
-              <span className="date">{this.props.pet.type}</span>
-            </div>
-            <div className="description">
-              <p>Age: {this.props.pet.age}</p>
-              <p>Weight: {this.props.pet.weight} lbs</p>
-            </div>
-          </div>
-          <div className="extra content">
-            { this.state.isAdopted ?
-            <button className="ui disabled button">Already adopted</button> :
-            <button onClick={() => this.props.onAdoptPet(this.props.pet.id)} className="ui primary button">Adopt pet</button>
-            }
-          </div>
+  return (
+    <div className="card">
+      <div className="content">
+        <a className="header">
+          {gender === "male" ? "♂" : "♀"}
+          {name}
+        </a>
+        <div className="meta">
+          <span className="date">{type}</span>
         </div>
-      )
-    }
-  }
+        <div className="description">
+          <p>Age: {age}</p>
+          <p>Weight: {weight}</p>
+        </div>
+      </div>
+      <div className="extra content">
+        {isAdopted ? (
+          <button className="ui disabled button">Already adopted</button>
+        ) : (
+          <button className="ui primary button" onClick={() => onAdoptPet(id)}>
+            Adopt pet
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
 
-export default Pet
+export default Pet;
