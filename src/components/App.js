@@ -14,7 +14,7 @@ class App extends React.Component {
     }
   }
 
-  updateFilters = (event) => {
+  onChangeType = (event) => {
     this.setState({
       filters: {
         type: event.target.value
@@ -63,7 +63,7 @@ class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters onChangeType={this.updateFilters} onFindPetsClick={this.onFindPetsClick} />
+              <Filters onChangeType={this.onChangeType} onFindPetsClick={this.onFindPetsClick} />
             </div>
             <div className="twelve wide column">
               <PetBrowser pets={this.state.pets} onAdoptPet={this.onAdoptPet}/>
