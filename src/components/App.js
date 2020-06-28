@@ -15,6 +15,41 @@ class App extends React.Component {
     }
   }
 
+  // this is a callback function that gets passed down to <Filter/> via props
+  // and "Onclick" in child <Filter/> triggers this function & get passed back up to parents <App/>
+  onFindPetsClick = () => {
+    const filteredUrl = `/api/pets${this.state.filters.type === "all" ? "" : "?type=" + this.state.filters.type}`;
+    fetch(filteredUrl)
+      .then((response) => response.json())
+      .then((petsData) => {
+        this.setState({
+          pets: petsData
+        })
+      })
+  }
+  // another callback function for <Filter/>
+  onChangeType = (event) => {
+    const petType = event.target.value
+    this.setState({
+      filters: {
+        type: petType
+      }
+    })
+  }
+
+  onAdoptPet = (petId) => {
+    const mappedPets = this.state.pets.map((pet) => {
+      if (pet.id === petId) {
+        return {...pet, isAdopted: true}
+      } else {
+        return pet
+      }
+    });
+    this.setState({
+      pets: mappedPets
+    })
+  }
+
   render() {
     return (
       <div className="ui container">
@@ -24,10 +59,10 @@ class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters />
+              <Filters onFindPetsClick={this.onFindPetsClick} onChangeType={this.onChangeType} />
             </div>
             <div className="twelve wide column">
-              <PetBrowser />
+              <PetBrowser pets={this.state.pets} onAdoptPet={this.onAdoptPet} />
             </div>
           </div>
         </div>
